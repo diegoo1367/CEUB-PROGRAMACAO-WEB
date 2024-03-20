@@ -1,1 +1,16 @@
-asdads
+h1, h2, h3, h4 {
+    color: yellow;
+    }
+    
+    p {
+        color: blueviolet;
+        background-color: black;
+    }
+    
+    #titulos {
+    color: blue;
+    background-color: brown;
+    margin: 40px, 60px, 50px, 40px;
+    padding: 50px, 50px, 40px, 70px;
+    border: 
+    }
