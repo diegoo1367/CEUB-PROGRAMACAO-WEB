@@ -1,14 +1,14 @@
 body {
-    background-color: #993399 ;
+    background-color: #330d33 ;
     color: black;
     font-family: "Playfair Display", serif;
 }
 
 
 #container {
-    background-color: Magenta;
+    background-color: rgb(219, 102, 219);
     margin-top: 50px;
-    box-shadow: 0px 2px 5px rgba(75, 3, 33, 1);
+    box-shadow: 0px 2px 5px rgb(192, 1, 81);
     padding: 20px;
     text-align: center;
     width: 600px;
@@ -17,7 +17,7 @@ body {
 }
 
 button {
-    background-color: #6b5b95;
+    background-color: #5c498d;
     color: #f0f0f0;
     border: none;
     border-radius: 5px;
@@ -25,7 +25,7 @@ button {
 }
 
 button:hover{
-    background-color: black;
+    background-color: rgb(26, 3, 3);
     cursor:pointer;
 }
 
