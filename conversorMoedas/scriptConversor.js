@@ -26,26 +26,44 @@ botaoConverter.addEventListener("click", converter)
 const botaoLimpar = document.getElementById("botao-limpar")
 botaoLimpar.addEventListener("click", limpar)
 
-document.addEventListener("keydown", function(event){
-    console.log(event)
-})
+const botaoAceitaMensagem = document.getElementById("botao-aceita-mensagem");
+botaoAceitaMensagem.addEventListener("click", aceitarMensagem)
+
+if(localStorage.getItem("aceitouCookie") == "1") {
+    console.log("usuario ja aceitou os termos não vou mais mostrar");
+    const divMensagemUsuario = document.getElementById("mensagem-usuario");
+    divMensagemUsuario.classList.add("oculto")
+}
+
+
+function aceitarMensagem() {
+    //alert("Usuário aceitou os termos");
+    const divMensagemUsuario = document.getElementById("mensagem-usuario");
+    divMensagemUsuario.classList.add("oculto");
+
+    localStorage.setItem("aceitouCookie", "1");
+}
+
+
+
 
 let valorUsuario = document.getElementById("valorEntrada");
 valorUsuario.addEventListener("keypress", function(event) {
 
-    event.preventDefault();
+
     console.log(event);
 
-    if (event.ctrkey == true && event.code =="Keyl") {
+    if(event.ctrlKey == true && event.code ==="L") {
         event.preventDefault();
         limpar();
     }
 
-    if(event.ctrkey == true && event.key == "KeyI") {
+    if(event.ctrlKey == true && event.code == "KeyI") {
+        event.preventDefault();
         inverter();
     }
 
-    if (event.key == true && event.key == "Enter") {
+    if (event.key ===  "Enter") {
         event.preventDefault();
         converter();
     }
@@ -53,6 +71,9 @@ valorUsuario.addEventListener("keypress", function(event) {
 
 
 function converter() {
+        let historicoRecuperado = recuperaHistorico();
+
+
         let valorUsuario = document.getElementById("valorEntrada").value;
 
         if(valorUsuario <= 0 || valorUsuario == "") {
@@ -67,19 +88,50 @@ function converter() {
             alert("As moedas são iguais!!!")
             return;
         }
-
         let simbolo = valoresConversao [moeda2]["simbolo"];
-        //console.log(simbolo);
-
-        
         let resultado = valorUsuario * valoresConversao[moeda1][moeda2];
-
-
-
         let paragrafoResultado = document.getElementById("resultado");
         paragrafoResultado.textContent = simbolo + " " + resultado.toFixed(2);
-        
 
+        let objetoResultado = {
+            valorDoUsuario: valorUsuario,
+            valorMoeda1: moeda1,
+            valorMoeda2: moeda2, 
+            valorResultado: resultado.toFixed(2)
+        }
+
+        //console.log(objetoResultado);
+
+        let objetoResultadoJSON = JSON.stringify(objetoResultado);
+
+        //localStorage.setItem("historico", objetoResultadoJSON);
+
+        salvarHistorico(objetoResultado);
+
+        //localStorage.setItem("historico", objetoResultado);
+}
+
+function salvarResulatoNoLocalStorage(resultado) {
+
+}
+function recuperaHistorico(){
+    let historico = localStorage.getItem("historico");
+
+    if(!historico) {
+        return [];        
+    }
+
+    let historicoObjeto = JSON.parse(historico);
+
+    return historicoObjeto;
+}
+
+function salvarHistorico(conversao) {
+    let historico = recuperaHistorico();
+
+    historico.push(conversao);
+    historico = JSON.stringify(historico);
+    localStorage.setItem("historico", historico);
 }
 
 function limpar() {
@@ -90,7 +142,6 @@ function limpar() {
     valorEntrada.value = "";
 
 }
-
 function inverter() {
    let valorMoeda1 = document.getElementById("moeda1").value;
    let valorMoeda2 = document.getElementById("moeda2").value;

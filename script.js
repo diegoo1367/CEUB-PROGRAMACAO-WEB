@@ -1,22 +1,32 @@
-let conteudo;
+function soma(numero1,numero2) {
+    let somaNumeros = numero1 + numero2;
+    return somaNumeros;
+}
 
-conteudo = document.getElementById("titulos")
-
-conteudo.innerHTML = "<h1>Esse conteudo esta vindo do javascript<h1>"
-
-letconteudo2 = document .getElementById("paragrafo-legal")
-conteudo2.innerHTML = "<p> esse paragrafo vem do js<p>"
-
-console.log(typeof(conteudo));
-
-console.log(conteudo);
+let resultadoDaSoma = soma(2,3);
 
 
+console.log(resultadoDaSoma);
 
 
+//let conteudo;
+
+//conteudo = document.getElementById("titulos")
+
+let conteudo_classe;
+conteudo_classe = document.querySelector(".paragrafo-classe");
 
 
+console.log(conteudo_classe)
 
+//conteudo.innerHTML = "<h1>Esse conteudo esta vindo do javascript<h1>"
+//
+//letconteudo2 = document.getElementById("paragrafo-legal")
+//conteudo2.innerHTML = "<p> esse paragrafo vem do js<p>"
+//
+//console.log(typeof(conteudo));
+//
+//console.log(conteudo);
 
 
 //imprima os numero de 1 a 5 na tela
