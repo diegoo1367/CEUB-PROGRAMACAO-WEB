@@ -17,6 +17,12 @@ const valoresConversao = {
 
 }
 
+const relacaoNomesMoedas = {
+    real: "BRL",
+    dolar: "USD",
+    euro : "EUR"
+}
+
 const botaoInverter = document.getElementById("botao-inverter");
 botaoInverter.addEventListener("click", inverter);
 
@@ -32,7 +38,34 @@ botaoAceitaMensagem.addEventListener("click", aceitarMensagem)
 if(localStorage.getItem("aceitouCookie") == "1") {
     console.log("usuario ja aceitou os termos não vou mais mostrar");
     const divMensagemUsuario = document.getElementById("mensagem-usuario");
-    divMensagemUsuario.classList.add("oculto")
+    divMensagemUsuario.classList.add("oculto");
+}
+
+function buscaConversaoAPI(moedaOrigem, moedaDestino) {
+    let urlApi = "https://economia.awesomeapi.com.br/last/";
+    urlApi = urlApi + moedaOrigem + "-" + moedaDestino;
+    console.log(urlApi);
+    
+    fetch(urlApi).then(function(response){
+        if(response.status == 200) {
+            console.log("a chamada foi feita com sucesso");
+        }
+        return response.json();
+    }).then(function(data){
+        responseAPI = data;
+        let objetoEmJson = JSON.stringify(data);
+        console.log(data[moedaOrigem + moedaDestino]);
+        console.log(data[moedaOrigem + moedaDestino]["ask"]);
+        console.log(objetoEmJson);
+        //retornar o parametro de conversao que está no atributo "ask"
+        responseAPI = data[moedaOrigem + moedaDestino]["ask"]
+        
+        //return data(moedaOrigem + moedaDestino)("ask");
+    }).catch(function(error){
+        console.log(error);
+    })
+
+    //return responseAPI;
 }
 
 
@@ -43,9 +76,6 @@ function aceitarMensagem() {
 
     localStorage.setItem("aceitouCookie", "1");
 }
-
-
-
 
 let valorUsuario = document.getElementById("valorEntrada");
 valorUsuario.addEventListener("keypress", function(event) {
@@ -70,7 +100,7 @@ valorUsuario.addEventListener("keypress", function(event) {
 });
 
 
-function converter() {
+function converter(fatorDeConversao) {
         let historicoRecuperado = recuperaHistorico();
 
 
@@ -83,11 +113,21 @@ function converter() {
 
         let moeda1 = document.getElementById("moeda1").value;
         let moeda2 = document.getElementById("moeda2").value;
+
+        console.log(moeda1);
+        console.log(moeda2);
+
+       
         
         if(moeda1 == moeda2) {
             alert("As moedas são iguais!!!")
             return;
         }
+
+        let parametrosConversao = buscaConversaoAPI(relacaoNomesMoedas[moeda1], relacaoNomesMoedas[moeda2]);
+
+
+
         let simbolo = valoresConversao [moeda2]["simbolo"];
         let resultado = valorUsuario * valoresConversao[moeda1][moeda2];
         let paragrafoResultado = document.getElementById("resultado");
